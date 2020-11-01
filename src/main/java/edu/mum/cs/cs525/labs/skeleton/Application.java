@@ -2,8 +2,7 @@ package edu.mum.cs.cs525.labs.skeleton;
 
 public class Application {
 	public static void main(String[] args) {
-		// We can use AccountDAOImpl or MockAccountDAOImpl for AccountService
-		AccountService accountService = new AccountServiceImpl(new AccountDAOImpl());
+		AccountService accountService = new AccountServiceImpl(new ProdAccountDAOFactory());
 
 		// create 2 accounts;
 		accountService.createAccount("1263862", "Frank Brown");

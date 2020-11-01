@@ -3,10 +3,12 @@ package edu.mum.cs.cs525.labs.skeleton;
 import java.util.Collection;
 
 public class AccountServiceImpl implements AccountService {
-	private AccountDAOFactory accountDAO;
+	private AccountDAO accountDAO;
+	private AccountDAOFactory accountDAOFactory;
 	
-	public AccountServiceImpl(AccountDAOFactory accountDAO){
-		this.accountDAO = accountDAO;
+	public AccountServiceImpl(AccountDAOFactory accountDAOFactory){
+		this.accountDAOFactory = accountDAOFactory;
+		this.accountDAO = this.accountDAOFactory.createAccountDAO();
 	}
 
 	public Account createAccount(String accountNumber, String customerName) {

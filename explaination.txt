@@ -1,14 +1,30 @@
-This were my steps:
-1. Change from AccountDAO interface to AccountDAOFactory with same content.
-   I totally can keep the AccountDAO, but I want to change to a new name with Factory behind the word AccountDAO
-   for easier to understand.
-2. Create AccountDAOImplement and MockAccountDAOImplement to implements the AccountDAOFactory.
-   This is the most important step because after this step, the AccountDAOFactory could be flexible changed between
-   AccountDAOImplement and MockAccountDAOImplement.
+These were my steps:
+1. First of all, I created an AccountDAOFactory interface to able to create AccountDAO with createAccountDAO abstract method.
+
+2. Create AccountDAOImplement and MockAccountDAOImplement.
   + AccountDAOImplement will be used for PROD
   + MockAccountDAOImplement will be used for TEST
-3. Then in AccountServiceImpl class, I only make a composition to AccountDAOFactory.
-4. In the Client Application class. I can flexibility use AccountDAOFactory by AccountDAOImpl or MockAccountDAOImplement
-   base on the Client's need.
 
-One thing made me confuse was it's very like as Strategy Pattern.
+3. Create 2 more Concrete Factory class ProdAccountDAOFactory for PROD environment and MockAccountDAOFactory for TEST
+   By the way implementing the AccountDAOFactory interface.
+   Details:
+   - ProdAccountDAOFactory will create AccountDAOImplement object:
+     // public AccountDAO createAccountDAO() { return new AccountDAOImpl(); }
+   - MockAccountDAOFactory will create MockAccountDAOImplement object:
+     // public AccountDAO createAccountDAO() { return new MockAccountDAOImpl(); }
+
+4. Then in AccountServiceImpl class, I need only make a composition to AccountDAOFactory.
+   // private AccountDAOFactory accountDAOFactory;
+   After this step. We can use AccountDAOFactory to create AccountDAO for AccountServiceImpl
+   // public AccountServiceImpl(AccountDAOFactory accountDAOFactory){
+      // this.accountDAOFactory = accountDAOFactory;
+      // this.accountDAO = this.accountDAOFactory.createAccountDAO();
+   //  }
+   AccountDAO can be flexible AccountDAOImplement (for PROD) or MockAccountDAOImplement for (TEST)
+   Base on the client need. See step 5.
+
+5. In the Client Application class.
+   To create data for PROD mode:
+     // AccountService accountService = new AccountServiceImpl(new ProdAccountDAOFactory());
+   And if you TEST mode:
+     // AccountService accountService = new AccountServiceImpl(new MockAccountDAOFactory());

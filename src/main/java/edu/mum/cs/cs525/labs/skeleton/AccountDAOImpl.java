@@ -3,7 +3,7 @@ package edu.mum.cs.cs525.labs.skeleton;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class AccountDAOImpl implements AccountDAOFactory {
+public class AccountDAOImpl implements AccountDAO {
 	Collection<Account> accountList = new ArrayList<Account>();
 
 	public void saveAccount(Account account) {
